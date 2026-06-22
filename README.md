@@ -1,146 +1,87 @@
 # 얼굴 추적 자동 휴대폰 거치대 (Face Tracking Phone Holder)
-> 사용자의 얼굴 위치를 실시간 추적해 휴대폰 화면이 항상 정면을 향하도록 자동 구동하는 거치대 로봇
+> 사용자의 얼굴 위치를 실시간 추적해 휴대폰 화면이 항상 정면을 향하도록 자동 구동하는 2축 거치대 로봇 (응용기계설계 기말작품)
 
-![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white)
 ![OpenCV](https://img.shields.io/badge/OpenCV-5C3EE8?style=flat-square&logo=opencv&logoColor=white)
 ![Arduino](https://img.shields.io/badge/Arduino-00979D?style=flat-square&logo=arduino&logoColor=white)
-![C++](https://img.shields.io/badge/C%2B%2B-00599C?style=flat-square&logo=cplusplus&logoColor=white)
-![MIT App Inventor](https://img.shields.io/badge/MIT%20App%20Inventor-A5CF47?style=flat-square&logo=mit&logoColor=white)
-![Bluetooth](https://img.shields.io/badge/Bluetooth-0082FC?style=flat-square&logo=bluetooth&logoColor=white)
+![Inverse Kinematics](https://img.shields.io/badge/Inverse_Kinematics-설계-E74C3C?style=flat-square)
+![Circuit Design](https://img.shields.io/badge/Circuit-A4988_Wiring-0078D4?style=flat-square)
+![3D Printing](https://img.shields.io/badge/3D_Printing-Fabrication-FF6C00?style=flat-square)
 
 ## 📌 프로젝트 정보
 | 항목 | 내용 |
 |------|------|
 | 개발 기간 | 2023.11.02 ~ 2023.11.20 |
-| 팀 구성 | 3인 팀 프로젝트 (응용기계설계 기말작품) |
-| 담당 역할 | 회로 설계 / 전체 보조 / 조이스틱 수동 Teaching / 기구부 보조 / PPT 제작 |
-| 시연 영상 | https://youtu.be/vMFg_ck-BE8 |
+| 팀 구성 | 4인 팀 프로젝트 (응용기계설계 기말작품 · 3조 Face Tracker) |
+| 담당 역할 | **회로 설계·연결 / 역기구학 설계 / 기구부 제작 보조 / PPT 제작** |
+| 시연 영상 | [YouTube](https://youtu.be/vMFg_ck-BE8) |
 
 ## 🎯 프로젝트 개요
-누워서 또는 편한 자세로 휴대폰·태블릿을 사용할 때, 자세를 바꿀 때마다 거치대 위치를 직접 옮겨야 하는 불편함에서 출발한 프로젝트입니다. 웹캠으로 사용자의 얼굴을 실시간 검출하고, 화면 중심과의 좌표 오차(dx, dy)를 계산해 거치대가 자동으로 휴대폰의 방향을 보정하는 "거치대 + Tracking + 로봇"을 구현했습니다. X축(스텝모터)과 Y축(서보모터)으로 방향을 보정하고, 시저 리프트로 Z축 높이를 제어합니다. 자동 추적 외에 아날로그 조이스틱 기반 수동 Teaching 기능을 함께 구현하여, 사용자가 각 축을 직접 조작해 원하는 자세로 위치시킬 수 있도록 했습니다.
+누워서 또는 편한 자세로 휴대폰·태블릿을 사용할 때, 자세를 바꿀 때마다 거치대 위치를 직접 옮겨야 하는 불편함에서 출발한 프로젝트입니다. 웹캠으로 사용자의 얼굴을 실시간 검출하고, 화면 중심과의 좌표 오차(dx, dy)를 계산해 거치대가 자동으로 휴대폰의 방향을 보정하는 "거치대 + Tracking + 로봇"을 구현했습니다. X축(스텝모터)으로 좌우 회전, Y축(서보모터)으로 상하 틸트를 보정하고, 시저 리프트로 Z축 높이를 제어합니다.
 
 ## ✨ 주요 기능 / 담당 업무
-- **회로 설계 및 전체 보조**: 5V/GND 전원과 Arduino, A4988 드라이버, 모터(m1·m2)를 잇는 구동 회로를 설계하고, 아두이노–파이썬 시리얼 통신 기반 모터 제어로 Tracking이 동작하도록 회로 측면을 담당했습니다.
-- **조이스틱 수동 Teaching (RobotArm teaching with joystick)**: 아날로그 조이스틱 3축(VRX/VRY/VRZ) 입력을 `analogRead`로 읽어 임계값(200/800)으로 정·역 방향을 판별하고, A4988의 Step/Dir 핀을 펄스 제어해 X·Y·Z 스텝모터를 독립적으로 구동하는 펌웨어를 작성했습니다.
-- **기구부 설계·제작 보조**: 시저 리프트를 통한 Z축 제어, 시저 리프트–스텝모터 결합 및 평기어를 이용한 제어, 클램프 고정 구조 등 기구부 제작을 보조했습니다.
-- **PPT 제작**: 발표 자료(PPT) 제작을 담당했습니다.
+- **회로 설계 및 연결**: Arduino + A4988 스텝모터 드라이버 + 스텝모터/서보모터를 잇는 구동 회로를 설계하고 직접 결선했습니다. (전원·GND 정리, Step/Dir 핀 배선)
+- **역기구학 설계**: 웹캠이 검출한 얼굴 좌표 오차(dx, dy)를 거치대 각 축(X 좌우 회전·Y 상하 틸트)의 목표 관절 제어량으로 변환하는 역기구학 관계식을 분석·설계했습니다. (추적 시 각 모터가 얼마나 움직여야 하는지를 정의)
+- **기구부 제작 보조**: 시저 리프트(Z축 높이 제어), 시저 리프트–스텝모터 결합, 평기어 동력 전달, 클램프 고정 구조 등 기구부 제작을 보조했습니다.
+- **PPT 제작**: 발표 자료를 제작했습니다.
 
-> 참고: 얼굴 추적 알고리즘(역기구학 기반 Tracking)과 하드웨어 전체 설계·앱 개발은 팀원이 담당했습니다.
+> 참고(팀 역할 분담): **Tracking 프로그램(코드)·Bluetooth 앱 개발·하드웨어 전체 설계**는 팀원이 담당했습니다. 본인은 **회로·역기구학(설계)·기구부·발표**를 맡았습니다.
 
 ## 🛠 기술 스택
-### Software
-- Python (OpenCV 얼굴 추적, 시리얼 통신)
-- Arduino (C++)
-- MIT App Inventor (MIT AI2 Companion)
+### 담당 (회로 · 역기구학 · 기구)
+- Arduino + A4988 스텝모터 드라이버 구동 회로 (설계·결선)
+- 역기구학 — 얼굴 좌표 오차 → 2축 관절 제어량 변환 (설계)
+- 시저 리프트 · 평기어 · 클램프 기구부 (3D 프린팅)
 
-### Hardware
-- 스텝모터 + A4988 드라이버 (X축 / 조이스틱 Teaching의 X·Y·Z축)
-- 서보모터 (Y축)
-- 시저 리프트 + 평기어 (Z축)
-- 아날로그 조이스틱 (VRX/VRY/VRZ)
-- Bluetooth 모듈
-- 3D 프린팅 기구부
+### 프로젝트 전체
+- Python (OpenCV 얼굴 추적) · 시리얼 통신
+- MIT App Inventor · Bluetooth (모바일 앱)
 
 ## 🔀 시스템 아키텍처
 ```mermaid
 flowchart LR
   CAM["웹캠"] --> CV["OpenCV 얼굴 검출"]
   CV --> ERR["좌표 오차 dx, dy 계산"]
-  ERR --> SER["시리얼 전송 9600bps"]
-  SER --> MCU["Arduino 수신"]
-  JOY["아날로그 조이스틱 VRX/VRY/VRZ"] --> TEACH["수동 Teaching 분기"]
-  TEACH --> MCU
-  MCU --> SX["스텝모터 X축"]
-  MCU --> SY["서보모터 Y축"]
-  MCU --> SZ["시저 리프트 Z축"]
+  ERR --> IK["역기구학 변환<br/>(오차 → 관절 각도)"]
+  IK --> MCU["Arduino 모터 제어"]
+  MCU --> SX["스텝모터 X축 (좌우)"]
+  MCU --> SY["서보모터 Y축 (상하)"]
+  MCU --> SZ["시저 리프트 Z축 (높이)"]
   SX --> HOLD["휴대폰 거치대 자세 보정"]
   SY --> HOLD
   SZ --> HOLD
 ```
-웹캠으로 검출한 얼굴 좌표 오차를 시리얼로 Arduino에 전달해 3축 모터를 구동하며, 조이스틱 입력은 수동 Teaching 경로로 분기되어 동일한 구동부를 제어합니다.
+웹캠으로 검출한 얼굴 좌표 오차를 **역기구학으로 각 축의 관절 제어량으로 변환**하고, 그 값을 Arduino가 받아 2축(+Z축 높이) 모터를 구동해 휴대폰이 항상 얼굴을 향하도록 자세를 보정합니다.
 
-## 💻 핵심 코드 (담당 역할)
-
-### 1. 조이스틱 Teaching — 핀 정의 및 setup
-A4988 CNC 회로 기준으로 X·Y·Z 3축의 Step/Dir 핀과 조이스틱 아날로그 입력(VRX/VRY/VRZ)을 정의하고 입출력 모드를 초기화합니다.
-
-```cpp
-const int XStepPin=2;    // X Step Pin
-const int XDirPin=5;     // X Direction Pin
-const int YStepPin=3;    // Y Step Pin
-const int YDirPin=6;     // Y Direction Pin
-const int ZStepPin=4;
-const int ZDirPin=7;
-int VRX=A0;
-int VRY=A1;
-int VRZ=A2;
-int SW=12;
-
-void setup() {
-  Serial.begin(9600);
-  pinMode(XStepPin,OUTPUT);
-  pinMode(XDirPin,OUTPUT);
-  pinMode(YStepPin,OUTPUT);
-  pinMode(YDirPin,OUTPUT);
-  pinMode(ZStepPin,OUTPUT);
-  pinMode(ZDirPin,OUTPUT);
-  pinMode(VRX,INPUT);
-  pinMode(VRY,INPUT);
-  pinMode(VRZ,INPUT);
-  pinMode(SW,INPUT);
-}
-```
-
-### 2. 조이스틱 Teaching — analogRead 임계값 기반 스텝모터 구동 (loop)
-조이스틱 아날로그 값을 읽어 임계값(800 미만 / 200 초과)으로 정·역 방향을 판별하고, Dir 핀을 설정한 뒤 Step 핀에 펄스를 보내 해당 축 스텝모터를 회전시킵니다. (X축 예시, Y·Z축도 동일 패턴)
-
-```cpp
-void loop() {
-  int Xvalue = analogRead(VRX);
-  // ...Yvalue, Zvalue 동일하게 읽음
-
-  if (Xvalue < 800) {
-    digitalWrite(XDirPin, HIGH);          // 시계 방향
-    digitalWrite(XStepPin, HIGH);         // 펄스 ON
-    delayMicroseconds(500);
-    digitalWrite(XStepPin, LOW);          // 펄스 OFF
-    delayMicroseconds(500);
-  }
-  if (Xvalue > 200) {
-    digitalWrite(XDirPin, LOW);           // 반시계 방향
-    digitalWrite(XStepPin, HIGH);
-    delayMicroseconds(500);
-    digitalWrite(XStepPin, LOW);
-    delayMicroseconds(500);
-  }
-  // Y축(VRY), Z축(VRZ)도 동일한 임계값/펄스 로직으로 제어
-}
-```
+## 📐 역기구학 설계 (담당)
+화면 중심과 얼굴 사이의 **픽셀 오차(dx, dy)를 그대로 모터 각도로 쓰면**, 카메라와의 거리·렌즈 화각에 따라 같은 각도라도 픽셀량이 달라져 과추적·소추적이 발생합니다. 그래서 **카메라 화각과 거치대 2축 링크 구조를 반영해 픽셀 오차를 각 축의 목표 관절 각도로 변환하는 역기구학 관계식**을 설계했습니다.
+- **X축(좌우 회전)** — 스텝모터: 수평 픽셀 오차 dx → 좌우 회전 각도
+- **Y축(상하 틸트)** — 서보모터: 수직 픽셀 오차 dy → 상하 틸트 각도
+- 이렇게 제어량을 축별로 분리해, Tracking 프로그램이 산출한 오차를 실제 기구 동작으로 정확히 연결할 수 있도록 했습니다.
 
 ## 🔧 기술적 도전과 해결 (Technical Challenges)
 
-### Q1. 조이스틱 입력으로 다축 스텝모터를 어떻게 직관적으로 수동 제어할 것인가?
-> **Challenge:** 자동 추적과 별개로, 사용자가 각 축을 직접 움직여 원하는 자세를 잡는 수동 Teaching이 필요했습니다. 아날로그 조이스틱은 중립에서도 일정한 값이 들어와 미세한 떨림으로도 모터가 오작동할 수 있었습니다.
-> **Solution:** 각 축의 `analogRead` 값을 임계값(800 미만 / 200 초과)으로 구간화해 중립 영역을 둔 뒤, 한쪽 방향은 Dir 핀 HIGH, 반대 방향은 LOW로 설정하고 Step 핀에 `delayMicroseconds(500)` 간격의 펄스를 인가했습니다. 동일 패턴을 X·Y·Z 3축에 독립 적용해 한 조이스틱으로 다축을 직관적으로 Teaching할 수 있도록 했습니다.
+### Q1. 픽셀 오차를 어떻게 실제 모터 각도로 변환할 것인가? (역기구학)
+> **Challenge:** 얼굴이 화면에서 벗어난 픽셀량은 카메라와의 거리·화각에 따라, 같은 회전 각도라도 다르게 나타납니다. 픽셀 오차를 단순 비례로 모터에 주면 가까울 땐 과추적, 멀 땐 소추적이 발생했습니다.
+> **Solution:** 카메라 화각과 거치대 2축 링크 구조를 반영한 역기구학 관계식을 설계해, 픽셀 오차(dx, dy)를 X(좌우)·Y(상하) 관절 각도로 변환했습니다. 축별로 제어량을 분리해 좌우는 스텝모터, 상하는 서보모터가 담당하도록 매핑함으로써 거리·화각이 달라져도 안정적으로 추적되도록 했습니다.
 
-### Q2. 무거운 거치대의 Z축 높이를 어떻게 안정적으로 제어할 것인가?
+### Q2. 무거운 거치대의 Z축 높이를 어떻게 안정적으로 제어할 것인가? (기구)
 > **Challenge:** 휴대폰 거치대를 위아래로 들어 올리려면 직접 구동만으로는 충분한 힘과 안정성을 확보하기 어려웠습니다.
-> **Solution:** 시저 리프트 구조로 Z축 전체 높이를 제어하고, 시저 리프트와 스텝모터를 결합한 뒤 평기어로 동력을 전달하도록 설계했습니다. 거치대는 클램프로 고정해 구동 중 흔들림을 줄였습니다. (스펙시트 기준 Z축 최대 높이 26cm, Z축 스텝 각 2°)
+> **Solution:** 시저 리프트 구조로 Z축 전체 높이를 제어하고, 시저 리프트와 스텝모터를 결합한 뒤 평기어로 동력을 전달하도록 설계했습니다. 거치대는 클램프로 고정해 구동 중 흔들림을 줄였습니다. (스펙시트 기준 Z축 최대 높이 26cm, 스텝 각 2°)
 
-### Q3. 파이썬 얼굴 추적 결과를 어떻게 아두이노 모터 제어로 연결할 것인가?
-> **Challenge:** OpenCV로 계산한 얼굴 좌표 오차를 아두이노로 전달해 실시간으로 모터를 구동해야 했습니다.
-> **Solution:** 파이썬에서 오차를 `X{dx}Y{dy}` 포맷 문자열로 직렬화해 9600bps 시리얼로 전송하고, 아두이노가 `'X'`/`'Y'` 헤더를 파싱해 `dx`, `dy`를 받아 X축(스텝모터)·Y축(서보모터)을 제어하도록 통신 규약을 맞춰 Tracking을 완성했습니다.
+### Q3. 다축 모터를 한 보드로 구동하는 회로를 어떻게 구성했나? (회로)
+> **Challenge:** 스텝모터(좌우)·서보모터(상하)·시저 리프트(높이)를 하나의 Arduino로 안정적으로 구동하는 회로를 결선해야 했고, 드라이버·모터 전원과 신호선이 섞이지 않게 정리해야 했습니다.
+> **Solution:** A4988 드라이버를 통해 스텝모터의 Step/Dir 핀을 분리 배선하고, 모터 구동 전원과 로직 전원을 구분해 GND를 공통으로 묶었습니다. 회로를 직접 설계·결선해 Tracking 결과가 모터 구동까지 끊김 없이 전달되도록 했습니다.
 
 ## 📸 스크린샷
 > `images/` 폴더에 이미지를 추가한 뒤 아래 경로를 맞춰주세요.
 
 | 화면 | 설명 |
 |------|------|
-| ![화면1](images/01.png) | 3D 프린팅으로 완성한 하드웨어 및 웹캠 장착 테스트 모습 |
-| ![화면2](images/02.png) | 시저 리프트·스텝모터·평기어 결합 기구부 동작 모습 |
-| ![화면3](images/03.png) | A4988 기반 조이스틱 Teaching 회로 및 동작 |
+| ![화면1](images/01.png) | 3D 프린팅으로 완성한 하드웨어 및 웹캠 장착 테스트 |
+| ![화면2](images/02.png) | 시저 리프트·스텝모터·평기어 결합 기구부 |
+| ![화면3](images/03.png) | A4988 기반 구동 회로 결선 |
 
 ## 🎬 시연 영상
-[![시연 영상](images/thumbnail.png)](https://youtu.be/vMFg_ck-BE8)
+[![시연 영상](https://img.youtube.com/vi/vMFg_ck-BE8/0.jpg)](https://youtu.be/vMFg_ck-BE8)
 
-최종 영상: https://youtu.be/vMFg_ck-BE8
+▶️ https://youtu.be/vMFg_ck-BE8
