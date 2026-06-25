@@ -72,13 +72,25 @@ flowchart LR
 > **Challenge:** 스텝모터(좌우)·서보모터(상하)·시저 리프트(높이)를 하나의 Arduino로 안정적으로 구동하는 회로를 결선해야 했고, 드라이버·모터 전원과 신호선이 섞이지 않게 정리해야 했습니다.
 > **Solution:** A4988 드라이버를 통해 스텝모터의 Step/Dir 핀을 분리 배선하고, 모터 구동 전원과 로직 전원을 구분해 GND를 공통으로 묶었습니다. 회로를 직접 설계·결선해 Tracking 결과가 모터 구동까지 끊김 없이 전달되도록 했습니다.
 
-## 📸 스크린샷
+## 📸 프로젝트 흐름 및 이미지 기록
+> 얼굴 좌표를 모터 각도로 바꾸는 제어 흐름과, 실제로 제작한 회로·기구부가 함께 보이도록 구성했습니다.
+
+```mermaid
+flowchart LR
+    Face[Face Center Error] --> IK[Inverse Kinematics / Angle Mapping]
+    IK --> Serial[Python-Arduino Serial]
+    Serial --> Driver[A4988 + Servo Driver Circuit]
+    Driver --> Mechanism[Pan/Tilt + Scissor Lift]
+```
 
 | 화면 | 설명 |
 |------|------|
-| ![화면1](images/01.jpeg) | 거치대에 휴대폰을 장착하고 모니터에서 얼굴 검출 박스로 실시간 추적을 시연하는 모습 |
-| ![화면2](images/02.png) | 손에 든 3D 프린팅 시저 리프트(가위형) 기구부 |
-| ![화면3](images/03.png) | Arduino UNO·브레드보드·A4988 드라이버·스텝모터 구동 회로 결선도 |
+| ![추적 시연](images/01.jpeg) | 거치대에 휴대폰을 장착하고 모니터에서 얼굴 검출 박스로 실시간 추적을 시연하는 모습 |
+| ![시저 리프트](images/02.png) | 손에 든 3D 프린팅 시저 리프트 기구부 — 높이 조절 축의 실제 제작 결과 |
+| ![회로 결선도](images/03.png) | Arduino UNO·브레드보드·A4988 드라이버·스텝모터 구동 회로 결선도 |
+| ![시저 리프트 상세](images/04_scissor-lift-mechanism.png) | 시저 리프트 상세 — Z축 높이 제어를 위한 기구 구조와 조립 상태 확인 |
+| ![트래커 데모](images/05_tracker-demo.png) | 얼굴 추적 데모 — 얼굴 중심 오차를 계산해 좌우/상하 모터 제어로 넘기는 테스트 화면 |
+| ![제어 화면](images/06_tracking-control-view.png) | 추적 제어 화면 — 얼굴 검출 결과와 모터 제어 상태를 함께 확인한 통합 테스트 장면 |
 
 ## 🎬 시연 영상
 [![시연 영상](https://img.youtube.com/vi/vMFg_ck-BE8/0.jpg)](https://youtu.be/vMFg_ck-BE8)
